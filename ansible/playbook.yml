@@ -1,0 +1,11 @@
+---
+- hosts: dev
+  become: true
+  vars:
+    dev_username: "{{ dev_username | default('devuser') }}"
+  tasks:
+    - apt: { update_cache: yes, cache_valid_time: 3600 }
+    - apt: { name: [git,docker.io,python3-pip,nodejs,npm,openjdk-17-jdk,unzip,htop], state: present }
+    - systemd: { name: docker, enabled: true, state: started }
+    - user: { name: "{{ dev_username }}", shell: /bin/bash, groups: "sudo,docker", append: yes }
+    - file: { path: "/home/{{ dev_username }}/workspace", state: directory, owner: "{{ dev_username }}", mode: '0755' }

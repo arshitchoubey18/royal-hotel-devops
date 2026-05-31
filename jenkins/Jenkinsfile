@@ -1,0 +1,14 @@
+pipeline {
+  agent any
+  parameters {
+    choice(name: 'ACTION', choices: ['apply','destroy'], description: 'Terraform action')
+    string(name: 'INSTANCE_TYPE', defaultValue: 't3.micro')
+    string(name: 'DEV_USERNAME', defaultValue: 'devuser')
+  }
+  stages {
+    stage('Init') { steps { dir('terraform') { sh 'terraform init' } } }
+    stage('Plan') { when { expression { params.ACTION == 'apply' } } steps { dir('terraform') { sh 'terraform plan -var instance_type=${INSTANCE_TYPE} -var dev_username=${DEV_USERNAME} -out=tfplan' } } }
+    stage('Apply') { when { expression { params.ACTION == 'apply' } } steps { dir('terraform') { sh 'terraform apply -auto-approve tfplan' } } }
+    stage('Destroy') { when { expression { params.ACTION == 'destroy' } } steps { dir('terraform') { sh 'terraform destroy -auto-approve -var instance_type=${INSTANCE_TYPE} -var dev_username=${DEV_USERNAME}' } } }
+  }
+}

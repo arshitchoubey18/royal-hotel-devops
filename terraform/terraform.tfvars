@@ -1,0 +1,6 @@
+aws_region = "us-east-1"
+instance_type = "t3.micro"
+key_name = "royal-hotel-dev-key"
+public_key_path = "~/.ssh/royal-hotel-dev-key.pub"
+dev_username = "devuser"
+allowed_ssh_cidr = "0.0.0.0/0"
