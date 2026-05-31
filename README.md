@@ -80,7 +80,7 @@ git --version
 
 ### EC2 Instance Running
 
-![EC2 Running](screenshots/AWS%20Console%20%E2%80%93%20EC2%20Running.png)
+![EC2 Running](screenshots/EC2%20Running.png)
 
 ### SSH Verification
 
